@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Coder's Cookbook</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>AJ</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <meta name="description" content="Complete C programming guide for Data Structures - 8 practical recipes covering Stack, Queue, Linked Lists, and Search Algorithms by ARYAN JHA">
+    <meta name="keywords" content="C programming, data structures, algorithms, stack, queue, linked list, binary search">
+</head>
+<body>
+    <div class="loader" id="loader" aria-hidden="true">
+        <div class="loader-spinner" role="status" aria-label="Loading content"></div>
+    </div>
+    
+    <div class="mobile-notification" id="mobileNotification">
+        <div class="notification-content">
+            <div class="notification-icon">💻</div>
+            <h3>Better Experience Awaits!</h3>
+            <p>For the best coding experience with full features, try opening this on a PC or laptop.</p>
+            <div class="notification-buttons">
+                <button onclick="dismissNotification()">Continue on Mobile</button>
+                <button onclick="dismissNotification()" class="dismiss">×</button>
+            </div>
+        </div>
+    </div>
+    
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <header>
+        <div class="header-bg-image"></div>
+        <div class="container">
+            <h1>The Coder's Cookbook</h1>
+            <p>8 Practical (Recipe) for DDS Lab Manual </p>
+            <div class="creator">Created by <span>ARYAN JHA</span></div>
+        </div>
+    </header>
+
+    <nav class="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-header">
+            <h3>Table of Contents</h3>
+            <div class="search-box">
+                <label for="searchInput" class="sr-only">Search recipes</label>
+                <input type="text" id="searchInput" placeholder="Search recipes..." onkeyup="searchRecipes()" aria-label="Search through recipes">
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        </div>
+        <ul>
+            <li><a href="#recipe1">Stack Operations</a></li>
+            <li><a href="#recipe2">Infix to Postfix</a></li>
+            <li><a href="#recipe3">Postfix Evaluation</a></li>
+            <li><a href="#recipe4">Towers of Hanoi</a></li>
+            <li><a href="#recipe5">Queue Operations</a></li>
+            <li><a href="#recipe6">Single Linked List</a></li>
+            <li><a href="#recipe7">Double Linked List</a></li>
+            <li><a href="#recipe8">Search Algorithms</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb" id="breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-path">
+                <span class="breadcrumb-home">📚 The Coder's Cookbook</span>
+                <span class="breadcrumb-separator">•</span>
+                <span class="breadcrumb-current" id="currentSection">Stack Operations</span>
+            </div>
+            <button class="pdf-download" onclick="downloadPDF()">📄 Download PDF</button>
+        </div>
+    </div>
+    
+    <main class="content" role="main">
+        <div class="container">
+            <!-- Recipe 1: Stack Operations -->
+            <section id="recipe1" class="recipe-card">
+                <h2>Recipe 1: The Classic Array Stack</h2>
+                <p class="description"><em>A fundamental LIFO data structure with complete operations suite</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#define MAX 5   // Maximum size of stack
+
+// Stack and top declaration
+int stack[MAX];
+int top = -1;
+
+// Function to check if stack is full
+int isFull() {
+    return top == MAX - 1;
+}
+
+// Function to check if stack is empty
+int isEmpty() {
+    return top == -1;
+}
+
+// Push operation
+void push(int value) {
+    if (isFull()) {
+        printf("\nStack Overflow! Cannot push %d\n", value);
+    } else {
+        stack[++top] = value;
+        printf("\n%d pushed into stack.\n", value);
+    }
+}
+
+// Pop operation
+void pop() {
+    if (isEmpty()) {
+        printf("\nStack Underflow! Nothing to pop.\n");
+    } else {
+        printf("\n%d popped from stack.\n", stack[top--]);
+    }
+}
+
+// Peek operation (top element)
+void peek() {
+    if (isEmpty()) {
+        printf("\nStack is Empty! No top element.\n");
+    } else {
+        printf("\nTop element is: %d\n", stack[top]);
+    }
+}
+
+// Traverse operation (display stack elements)
+void traverse() {
+    int i;  // declare outside for loop (Dev C++ compatible)
+    if (isEmpty()) {
+        printf("\nStack is Empty!\n");
+    } else {
+        printf("\nStack elements are: ");
+        for (i = top; i >= 0; i--) {
+            printf("%d ", stack[i]);
+        }
+        printf("\n");
+    }
+}
+
+// Search operation
+void search(int value) {
+    int i, found = 0;   // declare outside loop
+    if (isEmpty()) {
+        printf("\nStack is Empty!\n");
+    } else {
+        for (i = top; i >= 0; i--) {
+            if (stack[i] == value) {
+                printf("\n%d found at position %d (from top)\n", value, top - i + 1);
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            printf("\n%d not found in stack.\n", value);
+        }
+    }
+}
+
+// Main function with menu
+int main() {
+    int choice, value;
+    do {
+        printf("\n---- Stack Menu ----\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Peek\n");
+        printf("4. Traverse\n");
+        printf("5. Search\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+        case 1:
+            printf("Enter value to push: ");
+            scanf("%d", &value);
+            push(value);
+            break;
+        case 2:
+            pop();
+            break;
+        case 3:
+            peek();
+            break;
+        case 4:
+            traverse();
+            break;
+        case 5:
+            printf("Enter value to search: ");
+            scanf("%d", &value);
+            search(value);
+            break;
+        case 6:
+            printf("\nExiting program...\n");
+            break;
+        default:
+            printf("\nInvalid choice! Try again.\n");
+        }
+    } while (choice != 6);
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Create an array stack[MAX] and set top = -1</li>
+                        <li>Show the menu with choices: 1→Push, 2→Pop, 3→Peek, 4→Traverse, 5→Search, 6→Exit</li>
+                        <li>Repeat the following steps until user chooses Exit:
+                            <ul>
+                                <li>Case 1 (Push): Check if top == MAX - 1 (stack full). If yes → show "Overflow". If no → increase top and insert the new value at stack[top]</li>
+                                <li>Case 2 (Pop): Check if top == -1 (stack empty). If yes → show "Underflow". If no → print and remove the element at stack[top], then decrease top</li>
+                                <li>Case 3 (Peek): If stack is not empty → show the element at stack[top]. Else → show "Stack Empty"</li>
+                                <li>Case 4 (Traverse): If stack is empty → show "Stack Empty". Else → display elements from stack[top] down to stack[0]</li>
+                                <li>Case 5 (Search): If stack is empty → show "Stack Empty". Else → check each element from top to 0. If value found → show its position from top. If not found → show "Value not in stack"</li>
+                                <li>Case 6 (Exit): Stop the program</li>
+                            </ul>
+                        </li>
+                        <li>End</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>⏱️ Complexity Analysis</h3>
+                    <div class="complexity-grid">
+                        <div class="complexity-item">
+                            <h4>Push Operation</h4>
+                            <p><strong>Time:</strong> O(1) - Constant time</p>
+                            <p><strong>Space:</strong> O(1) - No extra space</p>
+                        </div>
+                        <div class="complexity-item">
+                            <h4>Pop Operation</h4>
+                            <p><strong>Time:</strong> O(1) - Constant time</p>
+                            <p><strong>Space:</strong> O(1) - No extra space</p>
+                        </div>
+                        <div class="complexity-item">
+                            <h4>Peek Operation</h4>
+                            <p><strong>Time:</strong> O(1) - Direct access</p>
+                            <p><strong>Space:</strong> O(1) - No extra space</p>
+                        </div>
+                        <div class="complexity-item">
+                            <h4>Traverse Operation</h4>
+                            <p><strong>Time:</strong> O(n) - Visit all elements</p>
+                            <p><strong>Space:</strong> O(1) - No extra space</p>
+                        </div>
+                        <div class="complexity-item">
+                            <h4>Search Operation</h4>
+                            <p><strong>Time:</strong> O(n) - Linear search</p>
+                            <p><strong>Space:</strong> O(1) - No extra space</p>
+                        </div>
+                        <div class="complexity-item">
+                            <h4>Overall Space</h4>
+                            <p><strong>Space:</strong> O(n) - Array of size MAX</p>
+                            <p><strong>Note:</strong> Fixed size allocation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="stack-visual" id="stackVisual">
+                            <div class="stack-title">Stack Visualization</div>
+                            <div class="stack-elements" id="stackElements">
+                                <div class="stack-base">Bottom</div>
+                            </div>
+                            <div class="stack-controls">
+                                <input type="number" id="pushValue" placeholder="Value" min="1" max="99">
+                                <button onclick="visualPush()" class="vis-btn push-btn">Push</button>
+                                <button onclick="visualPop()" class="vis-btn pop-btn">Pop</button>
+                                <button onclick="resetStack()" class="vis-btn reset-btn">Reset</button>
+                            </div>
+                            <div class="stack-info" id="stackInfo">Stack is empty</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>This program uses an array to implement a stack. top keeps track of the last element. We can push, pop, peek, traverse, and search values. It also checks for overflow (full) and underflow (empty).</p>
+                </div>
+            </section>
+
+            <!-- Recipe 2: Infix to Postfix -->
+            <section id="recipe2" class="recipe-card">
+                <h2>Recipe 2: Infix to Postfix Converter</h2>
+                <p class="description"><em>Transform mathematical expressions using operator precedence and stack magic</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;   // for isalnum()
+#define MAX 50
+
+char stack[MAX];
+int top = -1;
+
+// Function to push into stack
+void push(char c) {
+    if (top == MAX - 1) {
+        printf("\nStack Overflow!\n");
+    } else {
+        stack[++top] = c;
+    }
+}
+
+// Function to pop from stack
+char pop() {
+    if (top == -1) {
+        return -1;   // stack empty
+    } else {
+        return stack[top--];
+    }
+}
+
+// Function to return priority of operators
+int precedence(char c) {
+    if (c == '^') return 3;
+    else if (c == '*' || c == '/') return 2;
+    else if (c == '+' || c == '-') return 1;
+    else return 0;
+}
+
+// Function to convert Infix → Postfix
+void infixToPostfix(char infix[], char postfix[]) {
+    int i, j = 0;   // j for postfix index
+    char c;
+
+    for (i = 0; infix[i] != '\0'; i++) {
+        c = infix[i];
+
+        if (isalnum(c)) {  
+            // If operand (letter/number) → directly add to postfix
+            postfix[j++] = c;
+        }
+        else if (c == '(') {
+            push(c);
+        }
+        else if (c == ')') {
+            while (top != -1 && stack[top] != '(') {
+                postfix[j++] = pop();
+            }
+            pop(); // remove '(' from stack
+        }
+        else { // Operator
+            while (top != -1 && precedence(stack[top]) >= precedence(c)) {
+                postfix[j++] = pop();
+            }
+            push(c);
+        }
+    }
+
+    // Pop remaining operators
+    while (top != -1) {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0'; // Null terminate string
+}
+
+int main() {
+    char infix[50], postfix[50];
+
+    printf("Enter an Infix Expression: ");
+    scanf("%s", infix);
+
+    infixToPostfix(infix, postfix);
+
+    printf("Postfix Expression: %s\n", postfix);
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Read the infix expression</li>
+                        <li>Create an empty stack for operators and an empty postfix string</li>
+                        <li>Scan each character of the infix expression from left to right:
+                            <ul>
+                                <li>If it is an operand (letter/number) → directly put it in postfix</li>
+                                <li>If it is '(' → push into stack</li>
+                                <li>If it is ')' → pop operators from stack until '(' is found</li>
+                                <li>If it is an operator → pop from stack all operators with higher or equal precedence, then push the new operator</li>
+                            </ul>
+                        </li>
+                        <li>After scanning the expression, pop all remaining operators from stack into postfix</li>
+                        <li>Display the postfix expression</li>
+                        <li>End</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="infix-visual" id="infixVisual">
+                            <div class="infix-title">Infix to Postfix Converter</div>
+                            <div class="conversion-area">
+                                <div class="input-section">
+                                    <label>Infix Expression:</label>
+                                    <input type="text" id="infixInput" placeholder="e.g., A+B*C" maxlength="20">
+                                    <button onclick="convertInfixToPostfix()" class="vis-btn convert-btn">Convert</button>
+                                </div>
+                                <div class="stack-section">
+                                    <label>Operator Stack:</label>
+                                    <div class="operator-stack" id="operatorStack">Empty</div>
+                                </div>
+                                <div class="output-section">
+                                    <label>Postfix Output:</label>
+                                    <div class="postfix-output" id="postfixOutput">Result will appear here</div>
+                                </div>
+                            </div>
+                            <div class="conversion-steps" id="conversionSteps"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>We use a stack to handle operators and precedence. Operands go straight to postfix. Operators are popped based on priority. At the end, postfix is formed.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 3: Postfix Evaluation -->
+            <section id="recipe3" class="recipe-card">
+                <h2>Recipe 3: Postfix Expression Evaluator</h2>
+                <p class="description"><em>Calculate mathematical results from postfix notation using stack-based computation</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;   // for isdigit()
+#define MAX 50
+
+int stack[MAX];
+int top = -1;
+
+// Push into stack
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("\nStack Overflow!\n");
+    } else {
+        stack[++top] = value;
+    }
+}
+
+// Pop from stack
+int pop() {
+    if (top == -1) {
+        printf("\nStack Underflow!\n");
+        return -1;
+    } else {
+        return stack[top--];
+    }
+}
+
+// Function to evaluate postfix expression
+int evaluatePostfix(char exp[]) {
+    int i, op1, op2, result;
+    char c;
+
+    for (i = 0; exp[i] != '\0'; i++) {
+        c = exp[i];
+
+        if (isdigit(c)) {
+            // Convert char to int and push
+            push(c - '0');
+        } else {
+            // Pop two operands
+            op2 = pop();
+            op1 = pop();
+
+            switch (c) {
+                case '+': result = op1 + op2; break;
+                case '-': result = op1 - op2; break;
+                case '*': result = op1 * op2; break;
+                case '/': result = op1 / op2; break;
+                default: 
+                    printf("\nInvalid operator: %c\n", c);
+                    return -1;
+            }
+            push(result);
+        }
+    }
+    return pop(); // Final answer
+}
+
+int main() {
+    char postfix[50];
+    int result;
+
+    printf("Enter a Postfix Expression (single digit operands): ");
+    scanf("%s", postfix);
+
+    result = evaluatePostfix(postfix);
+
+    printf("Result of Postfix Evaluation: %d\n", result);
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Read the postfix expression</li>
+                        <li>Create an empty stack for numbers</li>
+                        <li>Scan each symbol of the postfix expression from left to right:
+                            <ul>
+                                <li>If it is a digit/operand → push it into stack</li>
+                                <li>If it is an operator (+, -, *, /) → pop the top two values, perform the operation, and push the result back</li>
+                            </ul>
+                        </li>
+                        <li>After the whole expression is scanned, the final result will be at the top of the stack</li>
+                        <li>Display the result</li>
+                        <li>End</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="postfix-visual" id="postfixVisual">
+                            <div class="postfix-title">Postfix Expression Evaluator</div>
+                            <div class="evaluation-area">
+                                <div class="input-section">
+                                    <label>Postfix Expression:</label>
+                                    <input type="text" id="postfixInput" placeholder="e.g., 23+4*" maxlength="20">
+                                    <button onclick="evaluatePostfixExpression()" class="vis-btn evaluate-btn">Evaluate</button>
+                                </div>
+                                <div class="stack-section">
+                                    <label>Operand Stack:</label>
+                                    <div class="operand-stack" id="operandStack">Empty</div>
+                                </div>
+                                <div class="result-section">
+                                    <label>Final Result:</label>
+                                    <div class="evaluation-result" id="evaluationResult">Result will appear here</div>
+                                </div>
+                            </div>
+                            <div class="evaluation-steps" id="evaluationSteps"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Operands go to stack, operators pop two values, perform operation, push result. Final value in stack = answer.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 4: Towers of Hanoi -->
+            <section id="recipe4" class="recipe-card">
+                <h2>Recipe 4: Towers of Hanoi Puzzle</h2>
+                <p class="description"><em>Recursive stack-like solution to the classic disk-moving puzzle</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+
+int moveCount = 0; // Global counter for moves
+
+// Function to solve Tower of Hanoi
+void towerOfHanoi(int n, char source, char temp, char dest) {
+    if (n == 1) {
+        moveCount++;
+        printf("step : %d : Move disk 1 from %c to %c\n", moveCount, source, dest);
+        return;
+    }
+
+    // Move n-1 disks from source to temp
+    towerOfHanoi(n - 1, source, dest, temp);
+
+    // Move the nth disk from source to destination
+    moveCount++;
+    printf("step : %d : Move disk %d from %c to %c\n", moveCount, n, source, dest);
+
+    // Move n-1 disks from temp to destination
+    towerOfHanoi(n - 1, temp, source, dest);
+}
+
+int main() {
+    int n;
+    printf("Enter number of disks: ");
+    scanf("%d", &n);
+
+    printf("\nSequence of moves:\n");
+    towerOfHanoi(n, 'A', 'B', 'C');
+
+    printf("\nTotal Moves = %d\n", moveCount);
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Input number of disks n</li>
+                        <li>If n = 1, directly move disk from source → destination and count step</li>
+                        <li>Otherwise:
+                            <ul>
+                                <li>Move n-1 disks from source → temp</li>
+                                <li>Move nth disk from source → destination</li>
+                                <li>Move n-1 disks from temp → destination</li>
+                            </ul>
+                        </li>
+                        <li>Repeat until all disks are shifted</li>
+                        <li>Print total number of moves</li>
+                        <li>End</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="hanoi-visual" id="hanoiVisual">
+                            <div class="hanoi-title">Towers of Hanoi Puzzle</div>
+                            <div class="hanoi-controls">
+                                <label>Number of Disks:</label>
+                                <input type="number" id="diskCount" min="1" max="4" value="3">
+                                <button onclick="startHanoi()" class="vis-btn start-btn">Start</button>
+                                <button onclick="resetHanoi()" class="vis-btn reset-btn">Reset</button>
+                            </div>
+                            <div class="towers-container" id="towersContainer">
+                                <div class="tower" id="towerA">
+                                    <div class="tower-label">Tower A (Source)</div>
+                                    <div class="tower-pole"></div>
+                                    <div class="tower-base"></div>
+                                </div>
+                                <div class="tower" id="towerB">
+                                    <div class="tower-label">Tower B (Helper)</div>
+                                    <div class="tower-pole"></div>
+                                    <div class="tower-base"></div>
+                                </div>
+                                <div class="tower" id="towerC">
+                                    <div class="tower-label">Tower C (Destination)</div>
+                                    <div class="tower-pole"></div>
+                                    <div class="tower-base"></div>
+                                </div>
+                            </div>
+                            <div class="hanoi-info" id="hanoiInfo">Set number of disks and click Start</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Tower of Hanoi uses recursion like a stack. It moves n-1 disks to helper, moves last disk, then n-1 disks to destination. Steps are counted, total moves = 2^n – 1.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 5: Queue Operations -->
+            <section id="recipe5" class="recipe-card">
+                <h2>Recipe 5: Linear Queue Operations</h2>
+                <p class="description"><em>First-In-First-Out data structure with comprehensive operation set</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#define MAX 5   // Maximum size of queue
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+// Check if queue is empty
+int isEmpty() {
+    return (front == -1 || front > rear);
+}
+
+// Check if queue is full
+int isFull() {
+    return (rear == MAX - 1);
+}
+
+// Enqueue (Insert element)
+void enqueue(int value) {
+    if (isFull()) {
+        printf("\nQueue Overflow! Cannot insert %d\n", value);
+    } else {
+        if (front == -1) {
+            front = 0;  // first element
+        }
+        queue[++rear] = value;
+        printf("\n%d enqueued into queue.\n", value);
+    }
+}
+
+// Dequeue (Remove element)
+void dequeue() {
+    if (isEmpty()) {
+        printf("\nQueue Underflow! Nothing to dequeue.\n");
+    } else {
+        printf("\n%d dequeued from queue.\n", queue[front]);
+        front++;
+    }
+}
+
+// Traverse (Display elements)
+void traverse() {
+    int i;
+    if (isEmpty()) {
+        printf("\nQueue is Empty!\n");
+    } else {
+        printf("\nQueue elements are: ");
+        for (i = front; i <= rear; i++) {
+            printf("%d ", queue[i]);
+        }
+        printf("\n");
+    }
+}
+
+// Search (Find element in queue)
+void search(int value) {
+    int i, found = 0;
+    if (isEmpty()) {
+        printf("\nQueue is Empty!\n");
+    } else {
+        for (i = front; i <= rear; i++) {
+            if (queue[i] == value) {
+                printf("\n%d found at position %d (from front)\n", value, i - front + 1);
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            printf("\n%d not found in queue.\n", value);
+        }
+    }
+}
+
+int main() {
+    int choice, value;
+    do {
+        printf("\n---- Queue Menu ----\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Traverse\n");
+        printf("4. Search\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+        case 1:
+            printf("Enter value to enqueue: ");
+            scanf("%d", &value);
+            enqueue(value);
+            break;
+        case 2:
+            dequeue();
+            break;
+        case 3:
+            traverse();
+            break;
+        case 4:
+            printf("Enter value to search: ");
+            scanf("%d", &value);
+            search(value);
+            break;
+        case 5:
+            printf("\nExiting program...\n");
+            break;
+        default:
+            printf("\nInvalid choice! Try again.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Create an array queue[MAX] with front = -1, rear = -1</li>
+                        <li>Show menu with choices: Enqueue, Dequeue, Traverse, Search, Exit</li>
+                        <li>Case 1 (Enqueue): If rear == MAX - 1 → Queue is full. Else increase rear and insert element. If first element → set front = 0</li>
+                        <li>Case 2 (Dequeue): If front == -1 or front > rear → Queue is empty. Else remove element at front and increase front</li>
+                        <li>Case 3 (Traverse): Print all elements from front to rear</li>
+                        <li>Case 4 (Search): Check each element from front to rear. If found, print position, else show not found</li>
+                        <li>Case 5 (Exit): End program</li>
+                        <li>End</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="queue-visual" id="queueVisual">
+                            <div class="queue-title">Queue Visualization (FIFO)</div>
+                            <div class="queue-elements" id="queueElements">
+                                <div class="queue-label front-label">Front</div>
+                                <div class="queue-label rear-label">Rear</div>
+                            </div>
+                            <div class="queue-controls">
+                                <input type="number" id="enqueueValue" placeholder="Value" min="1" max="99">
+                                <button onclick="visualEnqueue()" class="vis-btn enqueue-btn">Enqueue</button>
+                                <button onclick="visualDequeue()" class="vis-btn dequeue-btn">Dequeue</button>
+                                <button onclick="resetQueue()" class="vis-btn reset-btn">Reset</button>
+                            </div>
+                            <div class="queue-info" id="queueInfo">Queue is empty</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Queue uses FIFO order. Enqueue → insert at rear, Dequeue → remove from front. We can also traverse and search elements.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 6: Single Linked List -->
+            <section id="recipe6" class="recipe-card">
+                <h2>Recipe 6: Single Linked List Mastery</h2>
+                <p class="description"><em>Dynamic memory allocation with unidirectional node connections</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL;
+
+// Create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Insert at beginning
+void insertAtBeginning(int value) {
+    struct Node* newNode = createNode(value);
+    newNode->next = head;
+    head = newNode;
+}
+
+// Insert at end
+void insertAtEnd(int value) {
+    struct Node* newNode = createNode(value);
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    struct Node* temp = head;
+    while (temp->next != NULL)
+        temp = temp->next;
+    temp->next = newNode;
+}
+
+// Delete a node by value
+void deleteNode(int value) {
+    struct Node* temp = head;
+    struct Node* prev = NULL;
+
+    if (temp != NULL && temp->data == value) {  // if head is to be deleted
+        head = temp->next;
+        free(temp);
+        return;
+    }
+
+    while (temp != NULL && temp->data != value) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Value not found!\n");
+        return;
+    }
+
+    prev->next = temp->next;
+    free(temp);
+}
+
+// Search for a value
+void search(int value) {
+    struct Node* temp = head;
+    int pos = 1;
+    while (temp != NULL) {
+        if (temp->data == value) {
+            printf("Found %d at position %d\n", value, pos);
+            return;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    printf("Value %d not found!\n", value);
+}
+
+// Traverse list
+void traverse() {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    printf("Linked List: ");
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Reverse the linked list
+void reverse() {
+    struct Node* prev = NULL;
+    struct Node* current = head;
+    struct Node* next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    head = prev;
+}
+
+// Main function
+int main() {
+    insertAtBeginning(10);
+    insertAtEnd(20);
+    insertAtEnd(30);
+    insertAtBeginning(5);
+
+    traverse();
+
+    search(20);
+    search(99);
+
+    deleteNode(10);
+    traverse();
+
+    reverse();
+    traverse();
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start the program and define a Node structure with data and link part</li>
+                        <li>Use functions to handle different tasks:
+                            <ul>
+                                <li>Create Node: Make a new node and add it at the end</li>
+                                <li>Insert at Beginning: Create a node and connect it before head</li>
+                                <li>Delete Node: Search the node, adjust links, and free memory</li>
+                                <li>Traverse: Print all nodes from head to end</li>
+                                <li>Search: Go through each node and compare with key</li>
+                                <li>Reverse: Change node links so the list points backwards</li>
+                            </ul>
+                        </li>
+                        <li>Use menu in main to call these functions as per user choice</li>
+                        <li>Repeat until user exits</li>
+                        <li>Stop the program</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="list-visual" id="listVisual">
+                            <div class="list-title">Linked List Visualization</div>
+                            <div class="list-elements" id="listElements">
+                                <div class="list-empty">List is empty</div>
+                            </div>
+                            <div class="list-controls">
+                                <input type="number" id="listValue" placeholder="Value" min="1" max="99">
+                                <button onclick="visualInsertBegin()" class="vis-btn insert-begin-btn">Insert Begin</button>
+                                <button onclick="visualInsertEnd()" class="vis-btn insert-end-btn">Insert End</button>
+                                <button onclick="visualDelete()" class="vis-btn delete-btn">Delete</button>
+                                <button onclick="resetList()" class="vis-btn reset-btn">Reset</button>
+                            </div>
+                            <div class="list-info" id="listInfo">List is empty</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Dynamic data structure allowing efficient insertion/deletion. Memory is allocated as needed. Reversal algorithm elegantly changes pointer directions in single pass.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 7: Double Linked List -->
+            <section id="recipe7" class="recipe-card">
+                <h2>Recipe 7: Doubly Linked List Navigation</h2>
+                <p class="description"><em>Bidirectional traversal with previous and next pointer connections</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+struct Node* head = NULL;
+
+// Function to create new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Insert at beginning
+void insertAtBeginning(int data) {
+    struct Node* newNode = createNode(data);
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+    printf("%d inserted at beginning\n", data);
+}
+
+// Insert at end
+void insertAtEnd(int data) {
+    struct Node* newNode = createNode(data);
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        struct Node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->prev = temp;
+    }
+    printf("%d inserted at end\n", data);
+}
+
+// Delete node
+void deleteNode(int key) {
+    struct Node* temp = head;
+    while (temp != NULL && temp->data != key) {
+        temp = temp->next;
+    }
+    if (temp == NULL) {
+        printf("Node %d not found!\n", key);
+        return;
+    }
+    if (temp->prev != NULL)
+        temp->prev->next = temp->next;
+    else
+        head = temp->next; // deleting head
+
+    if (temp->next != NULL)
+        temp->next->prev = temp->prev;
+
+    free(temp);
+    printf("%d deleted\n", key);
+}
+
+// Traverse forward
+void traverse() {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
+    printf("List (forward): ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Traverse backward
+void reverseTraversal() {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    printf("List (reverse): ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->prev;
+    }
+    printf("\n");
+}
+
+// Search node
+void search(int key) {
+    struct Node* temp = head;
+    int pos = 1;
+    while (temp != NULL) {
+        if (temp->data == key) {
+            printf("%d found at position %d\n", key, pos);
+            return;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    printf("%d not found!\n", key);
+}
+
+// Main menu
+int main() {
+    int choice, val;
+    while (1) {
+        printf("\n--- Doubly Linked List Menu ---\n");
+        printf("1. Insert at Beginning\n");
+        printf("2. Insert at End\n");
+        printf("3. Delete\n");
+        printf("4. Traverse (Forward)\n");
+        printf("5. Traverse (Reverse)\n");
+        printf("6. Search\n");
+        printf("7. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &val);
+                insertAtBeginning(val);
+                break;
+            case 2:
+                printf("Enter value: ");
+                scanf("%d", &val);
+                insertAtEnd(val);
+                break;
+            case 3:
+                printf("Enter value to delete: ");
+                scanf("%d", &val);
+                deleteNode(val);
+                break;
+            case 4:
+                traverse();
+                break;
+            case 5:
+                reverseTraversal();
+                break;
+            case 6:
+                printf("Enter value to search: ");
+                scanf("%d", &val);
+                search(val);
+                break;
+            case 7:
+                exit(0);
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Start</li>
+                        <li>Define a structure Node with:
+                            <ul>
+                                <li>data (value)</li>
+                                <li>prev (pointer to previous node)</li>
+                                <li>next (pointer to next node)</li>
+                            </ul>
+                        </li>
+                        <li>For Insertion:
+                            <ul>
+                                <li>At Beginning: Create new node → point its next to head → update head's prev → make new node head</li>
+                                <li>At End: Traverse till last node → link new node at end</li>
+                            </ul>
+                        </li>
+                        <li>For Deletion:
+                            <ul>
+                                <li>If node is head → move head to head->next</li>
+                                <li>If node is middle/last → adjust prev and next pointers of neighbors</li>
+                                <li>Free memory</li>
+                            </ul>
+                        </li>
+                        <li>For Traversal: Start from head, follow next and print each node</li>
+                        <li>For Search: Traverse → compare each node's data with key</li>
+                        <li>For Reverse Traversal: Go to last node → print nodes backwards using prev</li>
+                        <li>Stop</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="double-list-visual" id="doubleListVisual">
+                            <div class="double-list-title">Doubly Linked List Visualization</div>
+                            <div class="double-list-elements" id="doubleListElements">
+                                <div class="double-list-empty">List is empty</div>
+                            </div>
+                            <div class="double-list-controls">
+                                <input type="number" id="doubleListValue" placeholder="Value" min="1" max="99">
+                                <button onclick="doubleInsertBegin()" class="vis-btn insert-begin-btn">Insert Begin</button>
+                                <button onclick="doubleInsertEnd()" class="vis-btn insert-end-btn">Insert End</button>
+                                <button onclick="doubleDelete()" class="vis-btn delete-btn">Delete</button>
+                                <button onclick="doubleTraverseForward()" class="vis-btn traverse-btn">Forward</button>
+                                <button onclick="doubleTraverseBackward()" class="vis-btn traverse-back-btn">Backward</button>
+                                <button onclick="resetDoubleList()" class="vis-btn reset-btn">Reset</button>
+                            </div>
+                            <div class="double-list-info" id="doubleListInfo">List is empty</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Doubly linked lists enable bidirectional traversal and easier deletion. Extra memory overhead for prev pointers but provides more flexibility in navigation.</p>
+                </div>
+            </section>
+
+            <!-- Recipe 8: Search Algorithms -->
+            <section id="recipe8" class="recipe-card">
+                <h2>Recipe 8: Binary & Interpolation Search</h2>
+                <p class="description"><em>Efficient searching algorithms for sorted arrays with different approaches</em></p>
+                
+                <div class="section">
+                    <h3>Ingredients (Code)</h3>
+                    <div class="code-container">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        <pre><code class="c">#include &lt;stdio.h&gt;
+
+// Binary Search Function
+int binarySearch(int arr[], int n, int key) {
+    int low = 0, high = n - 1, mid;
+    while (low <= high) {
+        mid = (low + high) / 2;
+
+        if (arr[mid] == key)
+            return mid;
+        else if (arr[mid] < key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1; // Not found
+}
+
+// Interpolation Search Function
+int interpolationSearch(int arr[], int n, int key) {
+    int low = 0, high = n - 1, pos;
+
+    while (low <= high && key >= arr[low] && key <= arr[high]) {
+        if (low == high) {
+            if (arr[low] == key) return low;
+            return -1;
+        }
+
+        // Formula for position
+        pos = low + ((key - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+
+        if (arr[pos] == key)
+            return pos;
+        else if (arr[pos] < key)
+            low = pos + 1;
+        else
+            high = pos - 1;
+    }
+    return -1; // Not found
+}
+
+int main() {
+    int n, i, key, choice, result;
+    printf("Enter size of array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter sorted elements of array:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Enter element to search: ");
+    scanf("%d", &key);
+
+    printf("\nChoose Search Method:\n1. Binary Search\n2. Interpolation Search\n");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        result = binarySearch(arr, n, key);
+        if (result != -1)
+            printf("Element found at index %d (position %d)\n", result, result + 1);
+        else
+            printf("Element not found!\n");
+    } 
+    else if (choice == 2) {
+        result = interpolationSearch(arr, n, key);
+        if (result != -1)
+            printf("Element found at index %d (position %d)\n", result, result + 1);
+        else
+            printf("Element not found!\n");
+    } 
+    else {
+        printf("Invalid Choice!\n");
+    }
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Method (Algorithm)</h3>
+                    <ol>
+                        <li>Take a sorted array from the user</li>
+                        <li>Ask which search method to use</li>
+                        <li>Binary Search: Repeatedly divide array in half until the key is found or range ends</li>
+                        <li>Interpolation Search: Predict position using formula and adjust search range</li>
+                        <li>Print result (found / not found)</li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h3>🎨 Interactive Visualization</h3>
+                    <div class="visualization-container">
+                        <div class="search-visual" id="searchVisual">
+                            <div class="search-title">Search Algorithms Visualization</div>
+                            
+                            <!-- Binary Search Section -->
+                            <div class="search-section">
+                                <h4>1. Binary Search</h4>
+                                <div class="search-controls">
+                                    <input type="text" id="binaryArray" placeholder="Enter sorted array: 1,3,5,7,9" value="1,3,5,7,9,11,13,15">
+                                    <input type="number" id="binaryTarget" placeholder="Target" min="1" max="99">
+                                    <button onclick="startBinarySearch()" class="vis-btn search-btn">Binary Search</button>
+                                </div>
+                                <div class="array-display" id="binaryArrayDisplay"></div>
+                                <div class="search-info" id="binaryInfo">Enter array and target value</div>
+                            </div>
+                            
+                            <!-- Interpolation Search Section -->
+                            <div class="search-section">
+                                <h4>2. Interpolation Search</h4>
+                                <div class="search-controls">
+                                    <input type="text" id="interpolationArray" placeholder="Enter sorted array: 2,4,6,8,10" value="2,4,6,8,10,12,14,16">
+                                    <input type="number" id="interpolationTarget" placeholder="Target" min="1" max="99">
+                                    <button onclick="startInterpolationSearch()" class="vis-btn search-btn">Interpolation Search</button>
+                                </div>
+                                <div class="array-display" id="interpolationArrayDisplay"></div>
+                                <div class="search-info" id="interpolationInfo">Enter array and target value</div>
+                            </div>
+                            
+                            <div class="search-steps" id="searchSteps"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Chef's Notes (Explanation)</h3>
+                    <p>Binary search works on any sorted array. Interpolation search performs better on uniformly distributed data by making educated guesses about element positions.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <button class="back-to-top" onclick="scrollToTop()" id="backToTop">↑</button>
+    <button class="scroll-to-bottom" onclick="scrollToBottom()" id="scrollToBottom">↓</button>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 The Coder's Cookbook by <strong>ARYAN JHA</strong></p>
+            <p>Find more projects on <a href="https://github.com/AryanJha05" target="_blank">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
