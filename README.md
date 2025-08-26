@@ -4,7 +4,7 @@ A comprehensive, interactive web-based guide for Data Structures and Algorithms 
 
 ## 🚀 Live Demo
 
-[View Live Website](https://AryanJha05.github.io/dds-lab-manual)
+[View Live Website](https://aryanjha05.github.io/DDS-Lab-Manual/)
 
 ## ✨ Features
 
@@ -50,7 +50,7 @@ dds-lab-manual/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/dds-lab-manual.git
+   git clone https://github.com/AryanJha/dds-lab-manual.git
    cd dds-lab-manual
    ```
 
